@@ -1,0 +1,577 @@
+/* ==========================================================================
+   AeroQuant — Design System Dark Glassmorphism sobre Wallpaper (Desktop & Mobile)
+   Fundo escuro com o wallpaper artístico (/wallpaper.jpg) fixo em camada dedicada
+   (60fps em iOS/Android), 3 níveis de transparência de vidro e zero scrollbars feias.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root,
+.dark,
+.dark-theme {
+  --aq-wallpaper-overlay:
+    linear-gradient(
+      135deg,
+      rgba(5, 8, 7, 0.80) 0%,
+      rgba(9, 13, 11, 0.72) 45%,
+      rgba(6, 9, 8, 0.85) 100%
+    );
+  --aq-rail-bg: rgba(10, 14, 12, 0.58);
+  --aq-surface: rgba(14, 20, 17, 0.56);
+  --aq-surface-elevated: rgba(20, 28, 24, 0.78);
+  --aq-subsurface: rgba(255, 255, 255, 0.055);
+  --aq-border: rgba(255, 255, 255, 0.14);
+  --aq-border-strong: rgba(110, 231, 183, 0.55);
+  --aq-text: #F3F7F4;
+  --aq-text-muted: #B2C0B7;
+  --aq-text-soft: #85968B;
+  --aq-primary: rgba(46, 118, 82, 0.92);
+  --aq-primary-hover: rgba(58, 138, 98, 0.98);
+  --aq-primary-fg: #F7FCF9;
+  --aq-primary-soft: rgba(104, 194, 142, 0.18);
+  --aq-terracotta: #E89565;
+  --aq-sage-bar: #68B688;
+  --aq-pill-active-bg: linear-gradient(135deg, rgba(46, 124, 86, 0.95), rgba(30, 88, 60, 0.95));
+  --aq-pill-active-fg: #FFFFFF;
+  --aq-pill-active-border: rgba(110, 231, 183, 0.68);
+  --aq-pill-bg: rgba(18, 26, 22, 0.62);
+  --aq-pill-fg: #D5E2DA;
+  --aq-shadow: 0 10px 32px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --aq-shadow-hover: 0 16px 38px -8px rgba(0, 0, 0, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+
+  /* 4 tons translúcidos de vidro colorido para os cards de KPIs */
+  --aq-tint-mint: rgba(32, 84, 58, 0.42);
+  --aq-tint-mint-border: rgba(98, 190, 138, 0.36);
+  --aq-tint-rose: rgba(138, 52, 42, 0.40);
+  --aq-tint-rose-border: rgba(228, 118, 102, 0.36);
+  --aq-tint-sand: rgba(148, 96, 38, 0.40);
+  --aq-tint-sand-border: rgba(238, 174, 96, 0.38);
+  --aq-tint-lemon: rgba(128, 112, 38, 0.38);
+  --aq-tint-lemon-border: rgba(220, 198, 96, 0.36);
+}
+
+/* 3 Intensidades de Vidro selecionáveis no cabeçalho */
+.aq-glass-cristal {
+  --aq-wallpaper-overlay:
+    linear-gradient(
+      135deg,
+      rgba(5, 8, 7, 0.62) 0%,
+      rgba(9, 13, 11, 0.52) 45%,
+      rgba(6, 9, 8, 0.68) 100%
+    );
+  --aq-rail-bg: rgba(10, 14, 12, 0.38);
+  --aq-surface: rgba(14, 20, 17, 0.38);
+  --aq-surface-elevated: rgba(18, 26, 22, 0.62);
+  --aq-subsurface: rgba(255, 255, 255, 0.075);
+  --aq-border: rgba(255, 255, 255, 0.19);
+}
+
+.aq-glass-fume {
+  --aq-rail-bg: rgba(10, 14, 12, 0.58);
+  --aq-surface: rgba(14, 20, 17, 0.56);
+  --aq-surface-elevated: rgba(20, 28, 24, 0.78);
+}
+
+.aq-glass-obsidiana {
+  --aq-wallpaper-overlay:
+    linear-gradient(
+      135deg,
+      rgba(4, 6, 5, 0.88) 0%,
+      rgba(7, 10, 9, 0.82) 45%,
+      rgba(4, 6, 5, 0.92) 100%
+    );
+  --aq-rail-bg: rgba(8, 12, 10, 0.80);
+  --aq-surface: rgba(12, 17, 14, 0.78);
+  --aq-surface-elevated: rgba(16, 23, 19, 0.90);
+  --aq-subsurface: rgba(255, 255, 255, 0.045);
+}
+
+/* Modo alternativo claro/fumê */
+.light,
+.light-theme {
+  --aq-wallpaper-overlay:
+    linear-gradient(
+      135deg,
+      rgba(8, 12, 10, 0.68) 0%,
+      rgba(12, 17, 14, 0.58) 45%,
+      rgba(8, 12, 10, 0.74) 100%
+    );
+  --aq-rail-bg: rgba(16, 22, 19, 0.44);
+  --aq-surface: rgba(22, 30, 26, 0.44);
+  --aq-surface-elevated: rgba(28, 38, 33, 0.70);
+  --aq-subsurface: rgba(255, 255, 255, 0.08);
+  --aq-border: rgba(255, 255, 255, 0.20);
+  --aq-border-strong: rgba(110, 231, 183, 0.62);
+  --aq-text: #F8FBF9;
+  --aq-text-muted: #C4D2C9;
+  --aq-text-soft: #96A89D;
+}
+
+html, body, .radix-themes {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: var(--aq-text) !important;
+  background-color: #060908 !important;
+  overflow-x: hidden;
+}
+
+/* Scrollbar global fina e discreta (elimina barras cinzas grossas do Windows) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(110, 231, 183, 0.45);
+}
+
+/* Utilitário para faixas horizontais sem nenhuma barra de rolagem visível */
+.aq-no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.aq-no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Canvas principal com wallpaper fixo compatível com iOS Safari, Android e Desktop */
+.aq-canvas {
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+}
+.aq-canvas::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--aq-wallpaper-overlay), url('/wallpaper.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Efeito Glassmorphism (vidro jateado translúcido) para cards, gaveta e modais */
+.aq-glass,
+.rt-DialogContent,
+.rt-PopoverContent {
+  backdrop-filter: blur(22px) saturate(155%);
+  -webkit-backdrop-filter: blur(22px) saturate(155%);
+}
+
+/* Fita contínua de cotações (Ticker Tape B3) no topo */
+@keyframes aq-marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+.aq-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: aq-marquee 42s linear infinite;
+}
+.aq-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Deixa tabelas e inputs do Radix harmonizados sobre os cards transparentes */
+.rt-TableRoot,
+.rt-TableHeader,
+.rt-TableBody,
+.rt-TableRow,
+.rt-TableCell,
+.rt-TableColumnHeaderCell,
+.rt-TableRowHeaderCell {
+  background-color: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.rt-TextFieldRoot,
+.rt-SelectTrigger {
+  background-color: rgba(12, 18, 15, 0.62) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--aq-text) !important;
+}
+
+/* Ajustes específicos de responsividade para Celular (< 768px) */
+@media (max-width: 768px) {
+  .aq-hero-title {
+    font-size: 1.55rem !important;
+    line-height: 1.2 !important;
+  }
+  .aq-glass,
+  .rt-DialogContent {
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+}
+
+/* Rotação contínua do ícone de atualização */
+@keyframes aq-spin {
+  to { transform: rotate(360deg); }
+}
+.aq-spin {
+  animation: aq-spin 0.9s linear infinite;
+}
+
+/* Entrada suave dos blocos */
+@keyframes aq-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.aq-fade-in {
+  animation: aq-fade-up 0.38s cubic-bezier(0.32, 0.72, 0, 1) backwards;
+}
+
+/* ==========================================================================
+   Animação Introdutória da Logo AeroQuant B3 (Splash -> Voo até a Sidebar)
+   Ao abrir o dashboard, a logo aparece grande no centro com aura verde/dourada
+   e depois diminui e voa suavemente até o canto superior esquerdo (dock).
+   ========================================================================== */
+
+@keyframes aq-splash-backdrop-fade {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  54% {
+    opacity: 1;
+    visibility: visible;
+  }
+  88% {
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes aq-splash-meta-fade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, 0px);
+  }
+  44% {
+    opacity: 1;
+    transform: translate(-50%, 0px);
+  }
+  56% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+@keyframes aq-splash-progress-fill {
+  0%   { width: 8%; opacity: 0.7; }
+  20%  { width: 45%; opacity: 1; }
+  48%  { width: 100%; opacity: 1; }
+  58%  { width: 100%; opacity: 0; }
+  100% { width: 100%; opacity: 0; }
+}
+
+/* Trajetória Desktop: Centro da tela (340x255) -> Canto superior esquerdo da Sidebar (46x46 em top:18px, left:11px) */
+@keyframes aq-splash-logo-dock {
+  0% {
+    top: 47%;
+    left: 50%;
+    width: 340px;
+    height: 255px;
+    transform: translate(-50%, -50%) scale(0.76);
+    border-radius: 28px;
+    opacity: 0;
+    visibility: visible;
+    box-shadow: 0 0 0 rgba(46, 196, 118, 0);
+  }
+  18% {
+    top: 47%;
+    left: 50%;
+    width: 340px;
+    height: 255px;
+    transform: translate(-50%, -50%) scale(1.03);
+    border-radius: 28px;
+    opacity: 1;
+    visibility: visible;
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.85),
+      0 0 65px rgba(74, 222, 128, 0.42),
+      0 0 110px rgba(245, 184, 81, 0.24),
+      inset 0 0 0 1.5px rgba(110, 231, 183, 0.65);
+  }
+  36% {
+    top: 47%;
+    left: 50%;
+    width: 340px;
+    height: 255px;
+    transform: translate(-50%, -50%) scale(1);
+    border-radius: 28px;
+    opacity: 1;
+    visibility: visible;
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.85),
+      0 0 80px rgba(74, 222, 128, 0.52),
+      0 0 130px rgba(245, 184, 81, 0.30),
+      inset 0 0 0 2px rgba(245, 184, 81, 0.58);
+  }
+  52% {
+    top: 47%;
+    left: 50%;
+    width: 340px;
+    height: 255px;
+    transform: translate(-50%, -50%) scale(0.98);
+    border-radius: 26px;
+    opacity: 1;
+    visibility: visible;
+  }
+  86% {
+    top: 18px;
+    left: 11px;
+    width: 46px;
+    height: 46px;
+    transform: translate(0, 0) scale(1);
+    border-radius: 13px;
+    opacity: 1;
+    visibility: visible;
+    box-shadow:
+      0 0 28px rgba(74, 222, 128, 0.72),
+      0 0 44px rgba(245, 184, 81, 0.45),
+      inset 0 0 0 1.5px rgba(110, 231, 183, 0.85);
+  }
+  100% {
+    top: 18px;
+    left: 11px;
+    width: 46px;
+    height: 46px;
+    transform: translate(0, 0) scale(1);
+    border-radius: 13px;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Trajetória Mobile/Tablet: Centro da tela (280x210) -> Topo esquerdo do mobile_nav (42x42 em top:10px, left:16px) */
+@keyframes aq-splash-logo-dock-mobile {
+  0% {
+    top: 46%;
+    left: 50%;
+    width: 280px;
+    height: 210px;
+    transform: translate(-50%, -50%) scale(0.76);
+    border-radius: 24px;
+    opacity: 0;
+    visibility: visible;
+  }
+  18% {
+    top: 46%;
+    left: 50%;
+    width: 280px;
+    height: 210px;
+    transform: translate(-50%, -50%) scale(1.03);
+    border-radius: 24px;
+    opacity: 1;
+    visibility: visible;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.85),
+      0 0 55px rgba(74, 222, 128, 0.45),
+      0 0 95px rgba(245, 184, 81, 0.25);
+  }
+  52% {
+    top: 46%;
+    left: 50%;
+    width: 280px;
+    height: 210px;
+    transform: translate(-50%, -50%) scale(0.98);
+    border-radius: 22px;
+    opacity: 1;
+    visibility: visible;
+  }
+  86% {
+    top: 10px;
+    left: 16px;
+    width: 42px;
+    height: 42px;
+    transform: translate(0, 0) scale(1);
+    border-radius: 12px;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: 0 0 24px rgba(74, 222, 128, 0.72);
+  }
+  100% {
+    top: 10px;
+    left: 16px;
+    width: 42px;
+    height: 42px;
+    transform: translate(0, 0) scale(1);
+    border-radius: 12px;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Pulso na logo fixa da barra lateral exatamente quando a logo voadora pousa nela */
+@keyframes aq-brand-arrival-pulse {
+  0%, 78% {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(110, 231, 183, 0.42);
+    transform: scale(1);
+  }
+  88% {
+    box-shadow:
+      0 0 28px rgba(74, 222, 128, 0.78),
+      0 0 48px rgba(245, 184, 81, 0.45),
+      inset 0 0 0 1.5px rgba(245, 184, 81, 0.85);
+    transform: scale(1.09);
+  }
+  100% {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(110, 231, 183, 0.42);
+    transform: scale(1);
+  }
+}
+
+.aq-splash-root {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Após o primeiro carregamento inicial, desativa completamente o splash ao trocar de módulo/aba */
+html.aq-intro-done .aq-splash-root,
+html.aq-intro-done .aq-splash-backdrop,
+html.aq-intro-done .aq-splash-logo-flyer,
+html.aq-intro-done .aq-splash-meta {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  animation: none !important;
+}
+
+html.aq-intro-done .aq-brand-dock-box {
+  animation: none !important;
+}
+
+.aq-splash-backdrop {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(16, 42, 29, 0.94) 0%, rgba(7, 11, 9, 0.98) 68%),
+    var(--aq-wallpaper-overlay);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  animation: aq-splash-backdrop-fade 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.aq-splash-logo-flyer {
+  position: fixed;
+  overflow: hidden;
+  background: #0E1512;
+  border: 1.5px solid rgba(110, 231, 183, 0.58);
+  animation: aq-splash-logo-dock 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: top, left, width, height, transform, opacity;
+}
+
+.aq-splash-logo-flyer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.aq-splash-meta {
+  position: fixed;
+  top: calc(47% + 158px);
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 320px;
+  text-align: center;
+  animation: aq-splash-meta-fade 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.aq-splash-progress-track {
+  width: 210px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.aq-splash-progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #34D399 0%, #F5B851 100%);
+  box-shadow: 0 0 14px rgba(52, 211, 153, 0.65);
+  animation: aq-splash-progress-fill 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.aq-brand-dock-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #0E1512;
+  border: 1px solid rgba(110, 231, 183, 0.45);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(245, 184, 81, 0.22);
+  animation: aq-brand-arrival-pulse 2.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.aq-brand-dock-box:hover {
+  transform: scale(1.06);
+  border-color: rgba(245, 184, 81, 0.75);
+  box-shadow: 0 8px 22px rgba(46, 196, 118, 0.38), 0 0 18px rgba(245, 184, 81, 0.28);
+}
+
+.aq-brand-dock-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+  transform: scale(1.16);
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .aq-splash-logo-flyer {
+    animation-name: aq-splash-logo-dock-mobile;
+  }
+  .aq-splash-meta {
+    top: calc(46% + 132px);
+    width: 270px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aq-spin, .aq-fade-in, .aq-ticker-track,
+  .aq-splash-backdrop, .aq-splash-logo-flyer, .aq-splash-meta, .aq-brand-dock-box {
+    animation: none;
+  }
+  .aq-splash-root {
+    display: none;
+  }
+}

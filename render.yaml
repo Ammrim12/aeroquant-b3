@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: aeroquant-b3
+    runtime: docker
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: GRANIAN_WORKERS
+        value: "1"
