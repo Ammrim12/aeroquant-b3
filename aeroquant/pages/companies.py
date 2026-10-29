@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import reflex as rx
 
-from ..components.companies import companies_explorer
+from ..components.companies import companies_explorer, unified_filter_panel
 from ..components.layout import page_layout
 from ..state import State
 
@@ -31,4 +31,5 @@ def companies_page() -> rx.Component:
         "Diretório de Empresas & Ativos — B3",
         summary,
         companies_explorer(),
+        fixed_filter=unified_filter_panel(),
     )

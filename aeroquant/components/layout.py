@@ -103,35 +103,80 @@ def page_layout(
     summary_line: rx.Component,
     *content: rx.Component,
     show_market_actions: bool = True,
+    fixed_filter: rx.Component | None = None,
 ) -> rx.Component:
+    """Layout App-Shell: Barra lateral, cabeçalho e filtros fixos; apenas o conteúdo central rola."""
+    fixed_header_children: list[rx.Component] = [
+        top_utility_bar(section_label),
+        page_hero(hero_title, summary_line, show_market_actions=show_market_actions),
+    ]
+    if fixed_filter is not None:
+        fixed_header_children.append(fixed_filter)
+
     return rx.flex(
         rx.script(_KEYBOARD_SHORTCUT_JS),
         splash_intro_overlay(),
         sidebar(),
-        rx.box(
-            mobile_nav(),
-            ticker_tape_bar(),
-            rx.vstack(
-                top_utility_bar(section_label),
-                page_hero(hero_title, summary_line, show_market_actions=show_market_actions),
-                _error_banner(),
-                *content,
-                spacing="5",
+        rx.flex(
+            # 1. Bloco Superior Fixo (Mobile Nav + Ticker Tape + Cabeçalho + Filtros da Página)
+            rx.box(
+                mobile_nav(),
+                ticker_tape_bar(),
+                rx.vstack(
+                    *fixed_header_children,
+                    spacing="2",
+                    width="100%",
+                    max_width="1240px",
+                    margin_x="auto",
+                    padding_x=rx.breakpoints(initial="0.9rem", sm="1.25rem", md="2.25rem"),
+                    padding_top=rx.breakpoints(initial="0.6rem", md="0.8rem"),
+                    padding_bottom=rx.breakpoints(initial="0.6rem", md="0.75rem"),
+                ),
                 width="100%",
-                max_width="1240px",
-                margin_x="auto",
-                padding_x=rx.breakpoints(initial="0.9rem", sm="1.25rem", md="2.25rem"),
-                padding_top=rx.breakpoints(initial="0.9rem", md="1.5rem"),
-                padding_bottom=rx.breakpoints(initial="5.5rem", md="2.5rem"),
+                flex_shrink="0",
+                z_index="35",
+                background="rgba(8, 12, 10, 0.72)",
+                border_bottom="1px solid var(--aq-border)",
+                box_shadow="0 8px 24px rgba(0, 0, 0, 0.35)",
+                style={
+                    "backdropFilter": "blur(22px) saturate(160%)",
+                    "WebkitBackdropFilter": "blur(22px) saturate(160%)",
+                },
+            ),
+            # 2. Área Central Rolável (somente os cards/tabelas/gráficos centrais descem)
+            rx.box(
+                rx.vstack(
+                    _error_banner(),
+                    *content,
+                    spacing="5",
+                    width="100%",
+                    max_width="1240px",
+                    margin_x="auto",
+                    padding_x=rx.breakpoints(initial="0.9rem", sm="1.25rem", md="2.25rem"),
+                    padding_top="1.1rem",
+                    padding_bottom=rx.breakpoints(initial="5.5rem", md="2.5rem"),
+                ),
+                flex="1",
+                width="100%",
+                min_height="0",
+                overflow_y="auto",
+                overflow_x="hidden",
+                class_name="aq-central-scroll",
             ),
             mobile_bottom_bar(),
             stock_detail_drawer(),
             command_palette_modal(),
             trade_modal(),
+            direction="column",
             flex="1",
+            height="100vh",
+            max_height="100vh",
             min_width="0",
+            overflow="hidden",
         ),
         width="100%",
-        min_height="100vh",
+        height="100vh",
+        max_height="100vh",
+        overflow="hidden",
         class_name=State.canvas_class,
     )

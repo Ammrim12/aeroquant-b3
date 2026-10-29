@@ -150,13 +150,13 @@ def sidebar() -> rx.Component:
             padding_y="1.15rem",
             background="var(--aq-rail-bg)",
             border_right="1px solid var(--aq-border)",
-            position="sticky",
-            top="0",
             style={
                 "backdropFilter": "blur(22px) saturate(160%)",
                 "WebkitBackdropFilter": "blur(22px) saturate(160%)",
             },
-        )
+        ),
+        height="100vh",
+        flex_shrink="0",
     )
 
 

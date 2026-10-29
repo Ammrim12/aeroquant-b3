@@ -77,32 +77,32 @@ def _inbox_news_row(item: dict) -> rx.Component:
     )
 
 
-def news_feed() -> rx.Component:
-    """Feed completo de notícias em português com filtro por editoria."""
-    return rx.vstack(
-        rx.hstack(
-            *[_topic_pill(topic) for topic in NEWS_QUERIES],
-            spacing="2",
-            width="100%",
-            overflow_x="auto",
-            padding_bottom="2px",
-        ),
-        rx.box(
-            rx.cond(
-                State.news_loading,
-                rx.vstack(
-                    *[rx.skeleton(height="64px", width="100%", border_radius="10px") for _ in range(6)],
-                    spacing="2",
-                    width="100%",
-                ),
-                rx.vstack(
-                    rx.foreach(State.news, _inbox_news_row),
-                    spacing="0",
-                    width="100%",
-                ),
-            ),
-            **SURFACE_CARD,
-        ),
-        spacing="4",
+def news_filter_bar() -> rx.Component:
+    """Barra de filtro de editorias fixa no cabeçalho da página de notícias."""
+    return rx.hstack(
+        *[_topic_pill(topic) for topic in NEWS_QUERIES],
+        spacing="2",
         width="100%",
+        wrap="wrap",
+        padding_top="2px",
+    )
+
+
+def news_feed() -> rx.Component:
+    """Feed completo de notícias em português (área central rolável)."""
+    return rx.box(
+        rx.cond(
+            State.news_loading,
+            rx.vstack(
+                *[rx.skeleton(height="64px", width="100%", border_radius="10px") for _ in range(6)],
+                spacing="2",
+                width="100%",
+            ),
+            rx.vstack(
+                rx.foreach(State.news, _inbox_news_row),
+                spacing="0",
+                width="100%",
+            ),
+        ),
+        **SURFACE_CARD,
     )

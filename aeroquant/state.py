@@ -410,7 +410,53 @@ class State(rx.State):
 
     @rx.var
     def calendar_events(self) -> list[dict[str, str]]:
+        # Depende de last_update para reavaliar automaticamente a cada ciclo de 60s
+        _ = self.last_update
         return md.get_market_calendar(self.calendar_category)
+
+    @rx.var
+    def calendar_summary(self) -> dict[str, str]:
+        _ = self.last_update
+        bundle = md.fetch_live_calendar_bundle(force=False)
+        return bundle.get(
+            "summary",
+            {
+                "div_headline": "PETR4 · VALE3 · BBAS3",
+                "div_sub": "Proventos reais B3 & FIIs",
+                "earn_headline": "Balanços & Receita B3",
+                "earn_sub": "ITUB4 · VALE3 · MGLU3",
+                "macro_headline": "Selic & IPCA (BCB)",
+                "macro_sub": "Taxas oficiais do Banco Central",
+                "exp_headline": "Exercício de Opções B3",
+                "exp_sub": "3ª sexta-feira do mês (15:00 BRT)",
+            },
+        )
+
+    @rx.event
+    async def open_calendar_ticker(self, ticker: str):
+        """Ao clicar num card da Agenda, abre o Raio-X lateral do ativo correspondente."""
+        tk = str(ticker).upper().strip()
+        if not tk:
+            return
+        pool = self._all_assets if self._all_assets else self._all_stocks
+        found = next((s for s in pool if s.get("ticker") == tk), None)
+        if not found:
+            found = {
+                "ticker": tk,
+                "name": tk,
+                "price": "R$ —",
+                "change": "0,00%",
+                "tone": "gray",
+                "sector": "Mercado B3",
+                "sector_short": "B3",
+                "subsector": "Ativo B3",
+                "volume": "—",
+                "market_cap": "—",
+                "asset_class": "acao",
+                "class_label": "Ativo B3",
+            }
+        async for _ in self.open_stock_drawer(found):
+            yield
 
     # ----------------------------------------------------------------------- #
     # Eventos Principais de Atualização Online
@@ -512,8 +558,9 @@ class State(rx.State):
         self.is_loading = False
         self.chart_loading = False
 
-        # Pré-aquece os demais benchmarks em segundo plano para troca instantânea
+        # Pré-aquece os demais benchmarks e o bundle da Agenda em segundo plano
         asyncio.create_task(asyncio.to_thread(md.prewarm_benchmarks, days))
+        asyncio.create_task(asyncio.to_thread(md.fetch_live_calendar_bundle, force_catalog))
 
     @rx.event
     async def manual_refresh(self):

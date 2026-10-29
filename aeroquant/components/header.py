@@ -396,7 +396,7 @@ def page_hero(
         rx.vstack(
             rx.heading(
                 title,
-                size="8",
+                size="6",
                 weight="bold",
                 letter_spacing="-0.03em",
                 color="var(--aq-text)",
@@ -435,11 +435,12 @@ def page_hero(
                 ),
                 spacing="2",
                 wrap="wrap",
+                flex_shrink="0",
             ),
         ),
         direction=rx.breakpoints(initial="column", md="row"),
         justify="between",
         align=rx.breakpoints(initial="start", md="center"),
-        gap="1rem",
+        gap="0.65rem",
         width="100%",
     )

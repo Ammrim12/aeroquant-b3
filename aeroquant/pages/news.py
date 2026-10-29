@@ -5,7 +5,7 @@ from __future__ import annotations
 import reflex as rx
 
 from ..components.layout import page_layout
-from ..components.news import news_feed
+from ..components.news import news_feed, news_filter_bar
 from ..state import State
 
 
@@ -22,4 +22,5 @@ def news_page() -> rx.Component:
         "Central de Notícias — Brasil",
         summary_line,
         news_feed(),
+        fixed_filter=news_filter_bar(),
     )

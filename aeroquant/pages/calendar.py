@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import reflex as rx
 
-from ..components.calendar import calendar_view
+from ..components.calendar import calendar_filter_bar, calendar_view
 from ..components.layout import page_layout
 from ..state import State
 
@@ -30,5 +30,6 @@ def calendar_page() -> rx.Component:
         "Agenda do Mercado & Proventos — B3",
         summary,
         calendar_view(),
+        fixed_filter=calendar_filter_bar(),
     )
 

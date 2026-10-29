@@ -95,15 +95,15 @@ def _sector_pill(pill: dict[str, str]) -> rx.Component:
     )
 
 
-def _unified_filter_panel() -> rx.Component:
-    """Painel de filtros unificado em vidro escuro (sem barras de rolagem horizontais)."""
+def unified_filter_panel() -> rx.Component:
+    """Painel de filtros unificado fixo no topo (sem barras de rolagem horizontais)."""
     return rx.box(
         rx.vstack(
-            # Linha 1: Abas de Classes de Ativos (à esquerda) + Alternador de Visão (à direita)
+            # Linha 1: Abas de Classes de Ativos + Busca + Ordenação + Alternador de Visão
             rx.flex(
                 rx.hstack(
                     *[_asset_class_tab(k, ic, lbl) for k, ic, lbl in ASSET_CLASS_TABS],
-                    spacing="2",
+                    spacing="1",
                     wrap="wrap",
                     align="center",
                 ),
@@ -139,15 +139,14 @@ def _unified_filter_panel() -> rx.Component:
                 direction=rx.breakpoints(initial="column", xl="row"),
                 justify="between",
                 align=rx.breakpoints(initial="start", xl="center"),
-                gap="0.75rem",
+                gap="0.5rem",
                 width="100%",
             ),
-            rx.divider(),
             # Linha 2: Barra de Busca + Ordenação + Contador + Limpar Filtros
             rx.flex(
                 rx.box(
                     rx.input(
-                        rx.input.slot(rx.icon("search", size=16, color="#6EE7B7")),
+                        rx.input.slot(rx.icon("search", size=15, color="#6EE7B7")),
                         rx.cond(
                             State.search_query != "",
                             rx.input.slot(
@@ -163,7 +162,7 @@ def _unified_filter_panel() -> rx.Component:
                         value=State.search_query,
                         on_change=State.set_search_query,
                         placeholder="Filtrar por código (PETR4, VALE3, HGLG11, BOVA11...), nome da empresa ou subsetor...",
-                        size="3",
+                        size="2",
                         width="100%",
                         radius="full",
                     ),
@@ -208,25 +207,25 @@ def _unified_filter_panel() -> rx.Component:
                 direction=rx.breakpoints(initial="column", lg="row"),
                 justify="between",
                 align=rx.breakpoints(initial="stretch", lg="center"),
-                gap="0.75rem",
+                gap="0.5rem",
                 width="100%",
             ),
-            # Linha 3: Segmentos Econômicos (expansível em múltiplas linhas, zero scrollbar!)
+            # Linha 3: Segmentos Econômicos (expansível em múltiplas linhas, zero scrollbar horizontal!)
             rx.cond(
                 State.selected_asset_class == "acao",
                 rx.box(
                     rx.vstack(
                         rx.hstack(
                             rx.hstack(
-                                rx.icon("layers-3", size=14, color="#F5B851"),
+                                rx.icon("layers-3", size=13, color="#F5B851"),
                                 rx.text(
-                                    "Filtrar por Segmento Econômico da B3:",
+                                    "Segmentos da B3:",
                                     size="1",
                                     weight="bold",
                                     color="var(--aq-text-muted)",
                                 ),
                                 align="center",
-                                spacing="2",
+                                spacing="1",
                             ),
                             rx.spacer(),
                             rx.hstack(
@@ -238,7 +237,7 @@ def _unified_filter_panel() -> rx.Component:
                                 rx.text(
                                     rx.cond(
                                         State.show_all_sectors,
-                                        "Mostrar principais setores",
+                                        "Recolher setores",
                                         "Ver todos os 20 setores",
                                     ),
                                     size="1",
@@ -253,22 +252,36 @@ def _unified_filter_panel() -> rx.Component:
                             width="100%",
                             align="center",
                         ),
-                        rx.hstack(
-                            rx.foreach(State.visible_sector_options, _sector_pill),
-                            spacing="2",
-                            wrap="wrap",
+                        rx.box(
+                            rx.hstack(
+                                rx.foreach(State.visible_sector_options, _sector_pill),
+                                spacing="1",
+                                wrap="wrap",
+                                width="100%",
+                            ),
+                            max_height="108px",
+                            overflow_y="auto",
                             width="100%",
                         ),
-                        spacing="2",
+                        spacing="1",
                         width="100%",
                     ),
-                    **SUBSURFACE_BOX,
+                    background="var(--aq-subsurface)",
+                    border="1px solid var(--aq-border)",
+                    border_radius="12px",
+                    padding="0.5rem 0.75rem",
+                    width="100%",
                 ),
             ),
-            spacing="3",
+            spacing="2",
             width="100%",
         ),
-        **SURFACE_CARD,
+        background="var(--aq-surface)",
+        border="1px solid var(--aq-border)",
+        border_radius="16px",
+        padding="0.65rem 0.9rem",
+        box_shadow="var(--aq-shadow)",
+        width="100%",
     )
 
 
@@ -429,11 +442,9 @@ def _company_table_row(stock: dict[str, str]) -> rx.Component:
 
 
 def companies_explorer() -> rx.Component:
-    """Explorador completo de empresas e ativos da B3 com painel de filtros unificado."""
+    """Área central rolável com os cards, tabela ou mapa de calor das empresas da B3."""
     return rx.vstack(
-        # 1. Painel de Filtros Inteligente (sem scrollbars horizontais)
-        _unified_filter_panel(),
-        # 2. Visão principal: Grade de cards | Mapa de Calor | Tabela completa
+        # Visão principal: Grade de cards | Mapa de Calor | Tabela completa
         rx.cond(
             State.view_mode == "cards",
             rx.grid(
